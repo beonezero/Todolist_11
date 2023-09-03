@@ -3,15 +3,9 @@ import axios from "axios";
 import {TodolistsApi} from "../../api/todolists-api";
 
 export default {
-    title: 'API'
+    title: 'API TODOLISTS'
 }
 
-const settings = {
-    withCredentials: true,
-    headers: {
-        "API-KEY": "e318d0fb-ce59-4c2b-827b-0e3b18b76493"
-    }
-}
 
 export const GetTodolists = () => {
     const [state, setState] = useState<any>(null)
