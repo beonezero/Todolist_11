@@ -7,16 +7,22 @@ export default {
 
 export const GetTasks = () => {
     const [state, setState] = useState<any>(null)
-    useEffect(() => {
-        // здесь мы будем делать запрос и ответ закидывать в стейт.
-        // который в виде строки будем отображать в div-ке
-        const todolistId = "19752913-6d0d-4562-9353-ca5435c44769"
+    const [todolistId, setTodolistId] = useState<string>("")
+    const getTasks = () => {
         TasksApi.getTasks(todolistId)
             .then((res) => {
                 setState(res.data.items)
             })
-    }, [])
-    return <div>{JSON.stringify(state)}</div>
+    }
+    return (
+        <div>
+            <div>{JSON.stringify(state)}</div>
+            <div><input placeholder={"todolistId"} value={todolistId} onChange={(e: ChangeEvent<HTMLInputElement>) => {
+                setTodolistId(e.currentTarget.value)
+            }}/>
+                <button onClick={getTasks}>get tasks</button>
+            </div>
+        </div>)
 }
 export const CreateTask = () => {
     const [state, setState] = useState<any>(null)
@@ -79,8 +85,20 @@ export const UpdateTask = () => {
     const [todolistId, setTodolistId] = useState<string>("")
     const [taskId, setTaskId] = useState<string>("")
     const [title, setTitle] = useState<string>("")
+    const [description, setDescription] = useState<string>("")
+    const [completed, setCompleted] = useState<boolean>(false)
+    const [status, setStatus] = useState<number>(0)
+    const [priority, setPriority] = useState<number>(0)
     const changeTitleTask = () => {
-        TasksApi.updateTask(todolistId, taskId, title)
+        TasksApi.updateTask(todolistId, taskId, {
+            title: title,
+            description: description,
+            completed: completed,
+            status: status,
+            priority: priority,
+            startDate: "",
+            deadline: ""
+        })
             .then((res) => {
                 setState(res.data)
             })
@@ -100,6 +118,18 @@ export const UpdateTask = () => {
             }}/></div>
             <div><input placeholder={"title"} value={title} onChange={(e: ChangeEvent<HTMLInputElement>) => {
                 setTitle(e.currentTarget.value)
+            }}/></div>
+            <div><input placeholder={"description"} value={description} onChange={(e: ChangeEvent<HTMLInputElement>) => {
+                setDescription(e.currentTarget.value)
+            }}/></div>
+            <div> true / false <input type={"checkbox"} checked={completed} onChange={(e) => {
+                setCompleted(e.currentTarget.checked)
+            }}/></div>
+            <div><input placeholder={"status"} type={"number"} value={status} onChange={(e: ChangeEvent<HTMLInputElement>) => {
+                setStatus(+e.currentTarget.value)
+            }}/></div>
+            <div><input placeholder={"priority"} type={"number"} value={priority} onChange={(e: ChangeEvent<HTMLInputElement>) => {
+                setPriority(+e.currentTarget.value)
             }}/></div>
             <div>
                 <button onClick={changeTitleTask}>change task</button>
