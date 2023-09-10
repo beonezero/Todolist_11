@@ -2,9 +2,9 @@ import React, {ChangeEvent, memo} from 'react';
 import {Checkbox, IconButton} from "@mui/material";
 import {EditableSpan} from "../EditableSpan";
 import {Delete} from "@mui/icons-material";
-import {TaskType} from "../Todolist";
 import {useDispatch} from "react-redux";
 import {changeTaskStatusAC, changeTaskTitleAC, removeTaskAC} from "./tasks-reducer";
+import {TaskStatuses, TaskType} from "../api/tasks-api";
 
 export type TaskWIthReduxPropsType = {
     task: TaskType
@@ -21,7 +21,7 @@ const TaskWIthRedux = memo(({task, todolistId}: TaskWIthReduxPropsType) => {
 
     const changeTaskStatus = (e: ChangeEvent<HTMLInputElement>) => {
         let newIsDoneValue = e.currentTarget.checked;
-        dispatch(changeTaskStatusAC(task.id, newIsDoneValue, todolistId))
+        dispatch(changeTaskStatusAC(task.id, newIsDoneValue ? TaskStatuses.Completed : TaskStatuses.New , todolistId))
     }
 
     const changeTaskTitle = (title: string) => {
@@ -30,9 +30,9 @@ const TaskWIthRedux = memo(({task, todolistId}: TaskWIthReduxPropsType) => {
 
 
     return (
-        <div className={task.isDone ? "is-done" : ""}>
+        <div className={task.status === TaskStatuses.Completed ? "is-done" : ""}>
             <Checkbox
-                checked={task.isDone}
+                checked={task.status === TaskStatuses.Completed}
                 color="primary"
                 onChange={changeTaskStatus}
             />

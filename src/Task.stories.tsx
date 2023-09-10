@@ -1,12 +1,9 @@
 import type {Meta, StoryObj} from '@storybook/react';
-import {AddItemForm} from "./AddItemForm";
 import {action} from "@storybook/addon-actions"
-import React, {ChangeEvent, KeyboardEvent, useState} from "react";
-import TextField from "@mui/material/TextField/TextField";
-import {IconButton} from "@mui/material";
-import {AddBox} from "@mui/icons-material";
+import React from "react";
 import Task from "./Task";
-import {TaskType} from "./Todolist";
+import {v1} from "uuid";
+import {TaskPriorities, TaskStatuses} from "./api/tasks-api";
 
 // More on how to set up stories at: https://storybook.js.org/docs/react/writing-stories/introduction#default-export
 const meta: Meta<typeof Task> = {
@@ -20,7 +17,8 @@ const meta: Meta<typeof Task> = {
     tags: ['autodocs'],
     // More on argTypes: https://storybook.js.org/docs/react/api/argtypes
     args: {
-        task: {id: "fsfsfs", title: "JS", isDone: true},
+        task: {id: v1(), title: "html", status: TaskStatuses.Completed, todoListId: "todolistId1", description: "",
+            startDate: "", deadline: "", addedDate: "", order: 0, priority: TaskPriorities.Low},
         changeTaskStatus: action("changeTaskStatus"),
         changeTaskTitle: action("changeTaskTitle"),
         removeTask: action("removeTask")
@@ -38,6 +36,7 @@ export const TaskIsDoneStory: Story = {
 
 export const TaskIsNoteDoneStory: Story = {
     args: {
-        task: {id: "fsfsfs2", title: "CSS", isDone: false}
+        task: {id: v1(), title: "html", status: TaskStatuses.Completed, todoListId: "todolistId1", description: "",
+            startDate: "", deadline: "", addedDate: "", order: 0, priority: TaskPriorities.Low}
     }
 };

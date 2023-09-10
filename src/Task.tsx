@@ -2,11 +2,11 @@ import React, {ChangeEvent, memo} from 'react';
 import {Checkbox, IconButton} from "@mui/material";
 import {EditableSpan} from "./EditableSpan";
 import {Delete} from "@mui/icons-material";
-import {TaskType} from "./Todolist";
+import {TaskStatuses, TaskType} from "./api/tasks-api";
 
 type PropsTaskType = {
     task: TaskType
-    changeTaskStatus: (taskId: string, isDone: boolean) => void
+    changeTaskStatus: (taskId: string, status: TaskStatuses) => void
     changeTaskTitle: (taskId: string, title: string) => void
     removeTask: (taskId: string) => void
 }
@@ -21,15 +21,15 @@ const Task = memo((
     const onClickHandler = () => removeTask(task.id)
     const onChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
         let newIsDoneValue = e.currentTarget.checked;
-        changeTaskStatus(task.id, newIsDoneValue);
+        changeTaskStatus(task.id, newIsDoneValue ? TaskStatuses.Completed : TaskStatuses.New);
     }
     const onTitleChangeHandler = (newValue: string) => {
         changeTaskTitle(task.id, newValue);
     }
     return (
-        <div className={task.isDone ? "is-done" : ""}>
+        <div className={task.status ? "is-done" : ""}>
             <Checkbox
-                checked={task.isDone}
+                checked={!!task.status}
                 color="primary"
                 onChange={onChangeHandler}
             />

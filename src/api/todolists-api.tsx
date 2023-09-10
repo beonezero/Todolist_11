@@ -19,7 +19,6 @@ type ResponseType<D> = {
     messages: string[],
     data: D
 }
-
 export const TodolistsApi = {
     getTodolists() {
         return axios.get<TodolistType[]>("https://social-network.samuraijs.com/api/1.1/todo-lists", settings)
