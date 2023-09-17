@@ -3,8 +3,9 @@ import {Checkbox, IconButton} from "@mui/material";
 import {EditableSpan} from "../EditableSpan";
 import {Delete} from "@mui/icons-material";
 import {useDispatch} from "react-redux";
-import {changeTaskStatusAC, changeTaskTitleAC, removeTaskAC} from "./tasks-reducer";
-import {TaskStatuses, TaskType} from "../api/tasks-api";
+import {changeTaskStatusAC, changeTaskTitleAC, deleteTaskTC, removeTaskAC} from "./tasks-reducer";
+import {TasksApi, TaskStatuses, TaskType} from "../api/tasks-api";
+import {useAppDispatch} from "./store";
 
 export type TaskWIthReduxPropsType = {
     task: TaskType
@@ -13,10 +14,10 @@ export type TaskWIthReduxPropsType = {
 
 
 const TaskWIthRedux = memo(({task, todolistId}: TaskWIthReduxPropsType) => {
-    const dispatch = useDispatch()
+    const dispatch = useAppDispatch()
 
     const removeTask = () => {
-        dispatch(removeTaskAC(task.id, todolistId))
+        dispatch(deleteTaskTC(todolistId, task.id))
     }
 
     const changeTaskStatus = (e: ChangeEvent<HTMLInputElement>) => {
