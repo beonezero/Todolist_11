@@ -52,12 +52,11 @@ type ResponseType<D = {}> = {
     data: D
 }
 
-type updateTaskModelType = {
-    title: string
+export type updateTaskModelType = {
     description: string
-    completed: boolean
-    status: number
-    priority: number
+    title: string
+    status: TaskStatuses
+    priority: TaskPriorities
     startDate: string
     deadline: string
 }
