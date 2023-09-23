@@ -1,12 +1,13 @@
 import React, {ChangeEvent, memo} from 'react';
-import {Checkbox, IconButton} from "@mui/material";
-import {EditableSpan} from "../EditableSpan";
-import {Delete} from "@mui/icons-material";
+import Checkbox from "@mui/material/Checkbox";
+import IconButton from "@mui/material/IconButton";
+import {EditableSpan} from "../../../../components/EditableSpan/EditableSpan";
+import Delete from "@mui/icons-material/Delete";
 import {
     deleteTaskTC, updateTaskTC,
-} from "./tasks-reducer";
-import {TaskStatuses, TaskType} from "../api/tasks-api";
-import {useAppDispatch} from "./store";
+} from "../../tasks-reducer";
+import {TaskStatuses, TaskType} from "../../../../api/tasks-api";
+import {useAppDispatch} from "../../../../App/store";
 
 export type TaskWIthReduxPropsType = {
     task: TaskType

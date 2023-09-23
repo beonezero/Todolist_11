@@ -1,13 +1,13 @@
 import React, {memo, useCallback, useEffect} from 'react';
-import {AddItemForm} from './AddItemForm';
-import {EditableSpan} from './EditableSpan';
+import {AddItemForm} from '../../../components/AddItemForm/AddItemForm';
+import {EditableSpan} from '../../../components/EditableSpan/EditableSpan';
 import {Button, IconButton} from "@mui/material";
 import {Delete} from "@mui/icons-material";
-import TaskWIthRedux from "./state/TaskWIthRedux";
-import {TaskStatuses, TaskType} from "./api/tasks-api";
-import {fetchTodolistsTC, FilterValuesType} from "./state/todolists-reducer";
-import {useAppDispatch} from "./state/store";
-import {fetchTasksTC} from "./state/tasks-reducer";
+import TaskWIthRedux from "./Task/TaskWIthRedux";
+import {TaskStatuses, TaskType} from "../../../api/tasks-api";
+import { FilterValuesType} from "../todolists-reducer";
+import {useAppDispatch} from "../../../App/store";
+import {fetchTasksTC} from "../tasks-reducer";
 
 type PropsType = {
     id: string

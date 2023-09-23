@@ -1,7 +1,8 @@
 import React, {ChangeEvent, memo} from 'react';
-import {Checkbox, IconButton} from "@mui/material";
-import {EditableSpan} from "./EditableSpan";
-import {Delete} from "@mui/icons-material";
+import Checkbox from "@mui/material/Checkbox";
+import IconButton from "@mui/material/IconButton";
+import {EditableSpan} from "./components/EditableSpan/EditableSpan";
+import Delete from "@mui/icons-material/Delete";
 import {TaskStatuses, TaskType} from "./api/tasks-api";
 
 type PropsTaskType = {
@@ -41,6 +42,5 @@ const Task = memo((
         </div>
     );
 })
-
 
 export default Task;
