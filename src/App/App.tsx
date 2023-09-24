@@ -13,6 +13,7 @@ import Menu from "@mui/icons-material/Menu";
 import {LinearProgress} from "@mui/material";
 import {useAppSelector} from "./store";
 import {RequestStatusType} from "./app-reducer";
+import {ErrorSnackbar} from "../components/ErrorSnackbar/ErrorSnackbar";
 
 export type TasksStateType = {
     [key: string]: Array<TaskType>
@@ -38,6 +39,7 @@ function App() {
             <Container fixed>
                 <TodolistsList/>
             </Container>
+        <ErrorSnackbar/>
         </div>
     );
 }

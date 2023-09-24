@@ -7,6 +7,7 @@ import {TaskPriorities, TasksApi, TaskStatuses, TaskType} from "../../api/tasks-
 import {TasksStateType} from "../../App/App";
 import {Dispatch} from "redux";
 import {AppRootStateType} from "../../App/store";
+import {setStatus, SetStatusType} from "../../App/app-reducer";
 
 const initialState: TasksStateType = {}
 
@@ -66,32 +67,39 @@ export const setTasksAC = (tasks: TaskType[], todolistId: string) =>
 
 export const fetchTasksTC = (todolistId: string) => {
     return (dispatch: Dispatch<ActionsType>) => {
+        dispatch(setStatus("loading"))
         TasksApi.getTasks(todolistId)
             .then(res => {
                 dispatch(setTasksAC(res.data.items, todolistId))
+                dispatch(setStatus("succeeded"))
             })
     }
 }
 
 export const deleteTaskTC = (todolistId: string, taskId: string) => {
     return (dispatch: Dispatch<ActionsType>) => {
+        dispatch(setStatus("loading"))
         TasksApi.deleteTask(todolistId, taskId)
             .then(res => {
                 dispatch(removeTaskAC(taskId, todolistId))
+                dispatch(setStatus("succeeded"))
             })
     }
 }
 
 export const addTaskTC = (todolistId: string, title: string) => {
     return (dispatch: Dispatch<ActionsType>) => {
+        dispatch(setStatus("loading"))
         TasksApi.createTask(todolistId, title)
             .then(res => {
                 dispatch(addTaskAC(res.data.data.item))
+                dispatch(setStatus("succeeded"))
             })
     }
 }
 export const updateTaskTC = (taskId: string, modelDomain: UpdateTaskDomainModelType, todolistId: string) => {
     return (dispatch: Dispatch<ActionsType>, getState: () => AppRootStateType) => {
+        dispatch(setStatus("loading"))
         const state = getState()
         const task = state.tasks[todolistId].find(t => t.id === taskId)
         if (task) {
@@ -107,6 +115,7 @@ export const updateTaskTC = (taskId: string, modelDomain: UpdateTaskDomainModelT
             TasksApi.updateTask(todolistId, taskId, modelApi)
                 .then(res => {
                     dispatch(updateTaskAC(taskId, modelDomain, todolistId))
+                    dispatch(setStatus("succeeded"))
                 })
         }
     }
@@ -131,4 +140,4 @@ type ActionsType =
     | AddTodolistActionType
     | RemoveTodolistActionType
     | SetTodolistsActionType
-
+    | SetStatusType
