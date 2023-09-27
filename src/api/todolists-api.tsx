@@ -7,18 +7,6 @@ const settings = {
     }
 }
 
-export type TodolistType = {
-    id: string,
-    title: string,
-    addedDate: string,
-    order: number
-}
-
-type ResponseType<D> = {
-    resultCode: number
-    messages: string[],
-    data: D
-}
 export const TodolistsApi = {
     getTodolists() {
         return axios.get<TodolistType[]>("https://social-network.samuraijs.com/api/1.1/todo-lists", settings)
@@ -34,4 +22,25 @@ export const TodolistsApi = {
     updateTodolist(todolistId: string, title: string) {
         return axios.put<ResponseType<{}>>(`https://social-network.samuraijs.com/api/1.1/todo-lists/${todolistId}`, {title: title}, settings)
     }
+}
+
+// types
+
+export type TodolistType = {
+    id: string,
+    title: string,
+    addedDate: string,
+    order: number
+}
+
+type ResponseType<D> = {
+    resultCode: number
+    messages: string[],
+    data: D
+}
+
+export enum RESULT_CODES {
+    OK = 0,
+    ERROR = 1,
+    ERROR_CAPTCHA = 10
 }

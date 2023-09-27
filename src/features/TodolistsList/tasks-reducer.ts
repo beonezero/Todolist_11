@@ -8,6 +8,8 @@ import {TasksStateType} from "../../App/App";
 import {Dispatch} from "redux";
 import {AppRootStateType} from "../../App/store";
 import {setError, setErrorType, setStatus, SetStatusType} from "../../App/app-reducer";
+import {RESULT_CODES} from "../../api/todolists-api";
+import {handleServerNetworkError} from "../../utils/utils_error";
 
 const initialState: TasksStateType = {}
 
@@ -92,17 +94,20 @@ export const addTaskTC = (todolistId: string, title: string) => {
         dispatch(setStatus("loading"))
         TasksApi.createTask(todolistId, title)
             .then(res => {
-                if (res.data.resultCode === 0) {
+                if (res.data.resultCode === RESULT_CODES.OK) {
                     dispatch(addTaskAC(res.data.data.item))
                     dispatch(setStatus("succeeded"))
                 } else {
                     const error = res.data.messages[0]
-                    if(error){
+                    if (error) {
                         dispatch(setError(error))
                     } else {
                         dispatch(setError("Some error"))
                     }
                 }
+            })
+            .catch((e) => {
+                handleServerNetworkError(dispatch, e.message)
             })
     }
 }
@@ -123,8 +128,20 @@ export const updateTaskTC = (taskId: string, modelDomain: UpdateTaskDomainModelT
             }
             TasksApi.updateTask(todolistId, taskId, modelApi)
                 .then(res => {
-                    dispatch(updateTaskAC(taskId, modelDomain, todolistId))
-                    dispatch(setStatus("succeeded"))
+                    if (res.data.resultCode === RESULT_CODES.OK) {
+                        dispatch(updateTaskAC(taskId, modelDomain, todolistId))
+                        dispatch(setStatus("succeeded"))
+                    } else {
+                        const error = res.data.messages[0]
+                        if (error) {
+                            dispatch(setError(error))
+                        } else {
+                            dispatch(setError("Some error"))
+                        }
+                    }
+                })
+                .catch((e) => {
+                    handleServerNetworkError(dispatch, e.message)
                 })
         }
     }
