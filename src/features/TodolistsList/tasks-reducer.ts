@@ -9,7 +9,8 @@ import {Dispatch} from "redux";
 import {AppRootStateType} from "../../App/store";
 import {setError, setErrorType, setStatus, SetStatusType} from "../../App/app-reducer";
 import {RESULT_CODES} from "../../api/todolists-api";
-import {handleServerNetworkError} from "../../utils/utils_error";
+import {handleServerAppError, handleServerNetworkError} from "../../utils/utils_error";
+import {AxiosError} from "axios";
 
 const initialState: TasksStateType = {}
 
@@ -98,12 +99,7 @@ export const addTaskTC = (todolistId: string, title: string) => {
                     dispatch(addTaskAC(res.data.data.item))
                     dispatch(setStatus("succeeded"))
                 } else {
-                    const error = res.data.messages[0]
-                    if (error) {
-                        dispatch(setError(error))
-                    } else {
-                        dispatch(setError("Some error"))
-                    }
+                    handleServerAppError(dispatch, res.data)
                 }
             })
             .catch((e) => {
@@ -140,7 +136,7 @@ export const updateTaskTC = (taskId: string, modelDomain: UpdateTaskDomainModelT
                         }
                     }
                 })
-                .catch((e) => {
+                .catch((e: AxiosError<ErrorType>) => {
                     handleServerNetworkError(dispatch, e.message)
                 })
         }
@@ -148,6 +144,17 @@ export const updateTaskTC = (taskId: string, modelDomain: UpdateTaskDomainModelT
 }
 
 //types
+
+type ErrorType = {
+    statusCode: 0,
+    messages: [
+        {
+            message: string
+            field: string
+        }
+    ],
+    error: string
+}
 
 export type UpdateTaskDomainModelType = {
     description?: string
