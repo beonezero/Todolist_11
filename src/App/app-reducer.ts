@@ -20,4 +20,4 @@ export const setError = (error: null | string) => ({type: "APP/SET-ERROR", error
 export type SetStatusType = ReturnType<typeof setStatus>
 export type setErrorType = ReturnType<typeof setError>
 type ActionsType = SetStatusType | setErrorType
-type InitialStateType = typeof initialState
+export type InitialStateType = typeof initialState
